@@ -5,3 +5,6 @@ monstj.c: monst.c jtrnsmon.dat
 
 objectsj.c: objects.c jtrnsobj.dat
 	perl patchobject.pl
+
+clean:
+	rm monstj.c objectsj.c
