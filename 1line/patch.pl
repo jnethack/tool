@@ -16,6 +16,8 @@ while(!eof(FI)){
     $out = <FI>;
     $in2 = $in;
     $in2 =~ s/^[\t ]+//;
+    my $out2 = $out;
+    $out2 =~ s/^[\t ]+//;
     for($i = 0; $i < $#file; $i++){
         if($file[$i] eq "#if 0 /*JP*/\n"){
             $f = 1;
@@ -31,7 +33,10 @@ while(!eof(FI)){
         }
 
         if($in2 eq $file2[$i]){
-            $file[$i] = "/*JP\n$in*/\n$out";
+            my $origline = $file[$i];
+            $origline =~ /(^[\t ]+)/;
+            my $indent = $1;
+            $file[$i] = "/*JP\n$origline*/\n$indent$out2";
             $file2[$i] = '';
             last;
         }
