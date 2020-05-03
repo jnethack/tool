@@ -19,7 +19,8 @@ while(!eof(FI)){
     my $out2 = $out;
     $out2 =~ s/^[\t ]+//;
     for($i = 0; $i < $#file; $i++){
-        if($file[$i] eq "#if 0 /*JP*/\n"){
+        if($file[$i] eq "#if 0 /*JP*/\n" ||
+           $file[$i] eq "#if 0 /*JP:T*/\n"){
             $f = 1;
             next;
         }
