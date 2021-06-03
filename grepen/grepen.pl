@@ -7,6 +7,9 @@ binmode(STDIN);
 my $f = 0;
 
 while(<>){
+    if (eof) {     # eof() Ç≈ÇÕÇ»Ç¢ÅB
+        close(ARGV);
+    }
     chomp;
     if(m@^.if 0 /\*JP@){
         $f = 1;
@@ -36,19 +39,26 @@ while(<>){
     if(/debugpline\d\(/){ next; }
     if(/impossible\(/){ next; }
     if(/panic\(/){ next; }
+    if(/error\(/){ next; }
+
+    if(/getobj\(/){ next; }
+    if(/floorfood\(/){ next; }
+    if(/wield_tool\(/){ next; }
+
     if(/.include/){ next; }
 
     s@/\*.*\*/@@g;
     my $ff = 0;
     while(/\"([^\"]*)\"/gc){
         my $m = $1;
-        $m =~ s/%s//g;
+        $m =~ s/%-?[0-9]*l?[sd]//g;
+        $m =~ s/[ \[\]]//g;
 
         if($m =~ /^[ !#-~]+$/a){ # }
             $ff = 1;
         }
     }
     if($ff == 1){
-        printf "%d:%s\n", $., $_;
+        printf "%s:%d:%s\n", $ARGV, $., $_;
     }
 }
